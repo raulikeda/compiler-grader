@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="compiler_grader",
+    name="compiler-grader",
     version="0.1.0",
     author="Raul Ikeda",
     author_email="rauligs@insper.edu.br",
