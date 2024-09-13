@@ -1,0 +1,142 @@
+[
+    {
+        "index": 1,
+        "Result": "It should not raise any errors, but it did",
+        "Description": "Test with all operators with no errors"
+    },
+    {
+        "index": 2,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Invalid empty string."
+    },
+    {
+        "index": 3,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid two consecultive operators."
+    },
+    {
+        "index": 4,
+        "Result": "ERROR:Parser:Unexpected PLUS token",
+        "Description": "Cannot start an expression with an operator."
+    },
+    {
+        "index": 5,
+        "Result": "ERROR:Parser:Unexpected INT token",
+        "Description": "Invalid two consecultive tokens. missing operator."
+    },
+    {
+        "index": 6,
+        "Result": "ERROR:Parser:Unexpected CLOSE_BRA token",
+        "Description": "The comment will remove the number."
+    },
+    {
+        "index": 7,
+        "Result": "ERROR:Parser:Unexpected DIV token",
+        "Description": "Cannot start an expression with MULT or DIV."
+    },
+    {
+        "index": 8,
+        "Result": "ERROR:Tokenizer:Unexpected symbol",
+        "Description": "Invalid symbol."
+    },
+    {
+        "index": 9,
+        "Result": "ERROR:Parser:Unexpected DIV token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 10,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 11,
+        "Result": "ERROR:Prepro:Invalid comment",
+        "Description": "Missing the comment closing."
+    },
+    {
+        "index": 12,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 13,
+        "Result": "ERROR:Parser:Unexpected SEMI token",
+        "Description": "Unexpected end of an expression."
+    },
+    {
+        "index": 14,
+        "Result": "ERROR:Parser:Unexpected SEMI token",
+        "Description": "Missing the closing parenthesis."
+    },
+    {
+        "index": 15,
+        "Result": "ERROR:Parser:Unexpected CLOSE_PAR token",
+        "Description": "Invalid parenthesis balance."
+    },
+    {
+        "index": 16,
+        "Result": "ERROR:Parser:Unexpected SEMI token",
+        "Description": "Missing the closing parenthesis."
+    },
+    {
+        "index": 17,
+        "Result": "ERROR:Parser:Unexpected CLOSE_PAR token",
+        "Description": "Invalid parenthesis balance."
+    },
+    {
+        "index": 18,
+        "Result": "ERROR:Parser:Unexpected IDEN token",
+        "Description": "Invalid print function name."
+    },
+    {
+        "index": 19,
+        "Result": "ERROR:Parser:Unexpected SEMI token",
+        "Description": "Missing the closing parenthesis for print."
+    },
+    {
+        "index": 20,
+        "Result": "ERROR:Parser:Unexpected CLOSE_BRA token",
+        "Description": "Missing the SEMI for print."
+    },
+    {
+        "index": 21,
+        "Result": "ERROR:Parser:Unexpected INT token",
+        "Description": "Missing the parenthesis for print."
+    },
+    {
+        "index": 22,
+        "Result": "ERROR:Parser:Unexpected PRINT token",
+        "Description": "Print is reserved word and cannot be identifier."
+    },
+    {
+        "index": 23,
+        "Result": "ERROR:Parser:Unexpected IDEN token",
+        "Description": "Cannot start an identifier with a number."
+    },
+    {
+        "index": 24,
+        "Result": "ERROR:Semantic:Undefined identifier X1",
+        "Description": "Identifier names are case sensitive."
+    },
+    {
+        "index": 25,
+        "Result": "ERROR:Parser:Unexpected INT token",
+        "Description": "Cannot assign a value to a number."
+    },
+    {
+        "index": 26,
+        "Result": "ERROR:Parser:Unexpected CLOSE_BRA token",
+        "Description": "Comment will remove the CLOSE_PAR and SEMI."
+    },
+    {
+        "index": 27,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Missing CLOSE_BRA at the end."
+    },
+    {
+        "index": 28,
+        "Result": "ERROR:Parser:Unexpected IDEN token",
+        "Description": "Missing OPEN_BRA at the beginning."
+    }
+]

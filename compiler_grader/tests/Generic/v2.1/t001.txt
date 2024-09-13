@@ -1,0 +1,16 @@
+$ob$pr(1)$n
+x = 1/1   +-+- ++  2 *  1 - 2+5*4 $n
+x = x + 2*4/2 + 6/2*3 + 0/1 + 1/2 + 10 - 15  $n
+x = x   -((6+ ((4)))/(2))$n  $ic $ic Test  
+y_1 = 3$n
+y_1 = y_1 + 2$n
+
+_z__ = x + y_1$n
+$n$n$n$n
+
+
+$oc Other
+Statements
+$cc
+$pr(x)$n
+$pr(_z__+1)$n$cb

@@ -1,8 +1,3 @@
-# import module compiler-grader using importlib
+from compiler_grader.grader import grade_version
 
-import importlib
-
-# Import the module
-grader = importlib.import_module("compiler-grader.grader")
-
-grader.grade_version("testcode.py", "v0.1")
+grade_version("testcode.py", "v0.1")

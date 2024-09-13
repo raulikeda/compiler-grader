@@ -3,9 +3,10 @@
 import subprocess
 import os
 import sys
+import json
 
 
-def grade_version(file: str, version: str, **kwargs) -> str:
+def grade_version(file: str, version: str, language: str = "C", **kwargs) -> str:
 
     # Get the intepreter
     interpreter = sys.executable
@@ -22,25 +23,48 @@ def grade_version(file: str, version: str, **kwargs) -> str:
     if not file.endswith(".py"):
         raise Exception("File is not a python file")
 
+    # Get the current file path
+    current_file_path = __file__
+
+    # Get the directory of the current file
+    current_directory = os.path.dirname(current_file_path)
+
+    # Check if tests directory exists
+    if not os.path.exists(f"{current_directory}/tests/{language}"):
+        raise Exception(f"Tests for {language} not found")
+
+    # get extension from config.json
+    extension = json.load(open(f"{current_directory}/tests/config.json"))[language][
+        "extension"
+    ]
+
     direct_input = True
     if int(version[1]) >= 2:
         direct_input = False
 
     errors = run_test_files(
-        f"{interpreter} {file}", version, direct_input=direct_input, **kwargs
+        language,
+        f"{interpreter} {file}",
+        version,
+        extension,
+        direct_input=direct_input,
+        **kwargs,
     )
 
     for error in errors:
+        print("-" * 50)
         print(error.replace("````", ""))
 
 
 def run_test_files(
+    language: str,
     command: str,
     version: str,
+    extension: str,
     direct_input: bool = True,
     maxtime: int = 10,
     fail_first: bool = False,
-) -> str:
+) -> list:
 
     # Get the current file path
     current_file_path = __file__
@@ -48,99 +72,94 @@ def run_test_files(
     # Get the directory of the current file
     current_directory = os.path.dirname(current_file_path)
 
-    # List all the files in the tests/version directory
-    files = os.listdir(f"{current_directory}/tests/{version}")
-
-    # sort the list to get right test order
-    files.sort()
+    # Open json meta file from test and version
+    meta = json.load(open(f"{current_directory}/tests/{language}/{version}/meta.json"))
 
     errors = []
 
-    for file in files:
+    for i in range(1, len(meta) + 1):
+        file = f"{current_directory}/tests/{language}/{version}/t{i:03d}.{extension}"
 
-        # if file starts with letter t
-        if file[0] == "t":
+        # Read file content
+        if direct_input:
+            with open(file, "r") as f:
+                content = f.read()
+        else:
+            content = file
 
-            # Get the path to the file
-            path = f"{current_directory}/tests/{version}/{file}"
+        # Read the solution file starting with letter s
+        with open(
+            f"{current_directory}/tests/{language}/{version}/s{i:03d}.txt", "r"
+        ) as f:
+            solution = f.read()
 
-            case = int(file[1:4])
+        try:
+            # Run the command with content as argument and get the output
+            args = command.split(" ")
+            args.append(content)
+            output = subprocess.run(
+                args,
+                # shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=maxtime,
+            )
 
-            # Read file content
-            if direct_input:
-                with open(path, "r") as f:
-                    content = f.read()
-            else:
-                content = path
+            result = output.stdout.decode("utf-8").strip()
 
-            # Read the solution file starting with letter s
-            with open(f"{current_directory}/tests/{version}/s{case:03d}.txt", "r") as f:
-                solution = f.read()
+        # If the process takes too long to execute
+        except subprocess.TimeoutExpired:
 
-            try:
-                # Run the command with content as argument and get the output
-                args = command.split(" ")
-                args.append(content)
-                output = subprocess.run(
-                    args,
-                    # shell=True,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    timeout=maxtime,
-                )
+            report = f"Test {i}: FAIL\n"
+            report += f"Input:\n````"
+            report += get_test_content(content, direct_input)
+            report += "````\n\n"
+            report += f"Error: Timeout, took too long to execute. Timeout: {maxtime} seconds\n"
 
-                result = output.stdout.decode("utf-8").strip()
+            raise Exception(report)
 
-            # If the process takes too long to execute
-            except subprocess.TimeoutExpired:
+        # Check if the return code is 0 (success)
+        if output.returncode == 0:
 
-                report = f"Test {case}: FAIL\n"
+            # Compare the output with the solution
+            if output.stdout.decode("utf-8").strip() != solution.strip():
+
+                report = f"Test {i}: FAIL\n"
+                report += f"Description: {meta[i-1]['Description']}\n"
                 report += f"Input:\n````"
-                report += get_test_content(content, direct_input) + "\n"
+                report += get_test_content(content, direct_input)
                 report += "````\n\n"
-                report += f"Error: Timeout, took too long to execute. Timeout: {maxtime} seconds\n"
+                if solution == "[ERROR]":
+                    report += f"Expected output:\n````{meta[i-1]['Result']}\n````\n"
+                else:
+                    report += f"Expected output:\n````{solution}````\n"
+                report += f"Actual output:\n````{result}````\n"
 
-                raise Exception(report)
+                # If fail_first is True, raise an exception immediately
+                if fail_first:
+                    raise Exception(report)
 
-            # Check if the return code is 0 (success)
-            if output.returncode == 0:
+                # Add the report to the errors list
+                errors.append(report)
 
-                # Compare the output with the solution
-                if output.stdout.decode("utf-8").strip() != solution.strip():
+        else:  # If the return code is not 0 (error)
+            # Compare the output with the error tag
+            if solution != "[ERROR]":
 
-                    report = f"Test {case}: FAIL\n"
-                    report += f"Input:\n````"
-                    report += get_test_content(content, direct_input) + "\n"
-                    report += "````\n\n"
-                    report += f"Expected output:\n````\n{solution}\n````\n"
-                    report += f"Actual output:\n````\n{result}\n````\n"
+                report = f"Test {i}: FAIL\n"
+                report += f"Description: {meta[i-1]['Description']}\n"
+                report += f"Input:\n````"
+                report += get_test_content(content, direct_input)
+                report += "````\n\n"
+                report += f"Expected output:\n````{meta[i-1]['Result']}\n````\n"
+                report += f"Actual output:\n````Error````\n"
 
-                    # If fail_first is True, raise an exception immediately
-                    if fail_first:
-                        raise Exception(report)
+                # If fail_first is True, raise an exception immediately
+                if fail_first:
+                    raise Exception(report)
 
-                    # Add the report to the errors list
-                    errors.append(report)
-
-            else:  # If the return code is not 0 (error)
-                # Compare the output with the error tag
-                if solution != "[ERROR]":
-
-                    print(solution)
-
-                    report = f"Test {case}: FAIL\n"
-                    report += f"Input:\n````"
-                    report += get_test_content(content, direct_input) + "\n"
-                    report += "````\n\n"
-                    report += f"Expected output:\n````\{solution}\n````\n"
-                    report += f"Actual output:\n````\nError\n````\n"
-
-                    # If fail_first is True, raise an exception immediately
-                    if fail_first:
-                        raise Exception(report)
-
-                    # Add the report to the errors list
-                    errors.append(report)
+                # Add the report to the errors list
+                errors.append(report)
 
     return errors
 

@@ -1,0 +1,67 @@
+[
+    {
+        "index": 1,
+        "Result": "It should not raise any errors, but it did",
+        "Description": "ADD/SUB/MULT/DIV test with no errors with spaces"
+    },
+    {
+        "index": 2,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Invalid empty string."
+    },
+    {
+        "index": 3,
+        "Result": "ERROR:Parser:Unexpected MINUS token",
+        "Description": "Invalid two consecultive operators (No unary operator yet)."
+    },
+    {
+        "index": 4,
+        "Result": "ERROR:Parser:Unexpected PLUS token",
+        "Description": "Cannot start with an operator."
+    },
+    {
+        "index": 5,
+        "Result": "ERROR:Parser:Unexpected INT token",
+        "Description": "Invalid two consecultive numbers. Do not replace spaces, just ignore them."
+    },
+    {
+        "index": 6,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Missing the last number."
+    },
+    {
+        "index": 7,
+        "Result": "ERROR:Parser:Unexpected PLUS token",
+        "Description": "No unary operators yet. Do not use eval."
+    },
+    {
+        "index": 8,
+        "Result": "ERROR:Tokenizer:Unexpected symbol",
+        "Description": "Invalid symbol."
+    },
+    {
+        "index": 9,
+        "Result": "ERROR:Parser:Unexpected DIV token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 10,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 11,
+        "Result": "ERROR:Parser:Unexpected PLUS token",
+        "Description": "No unary operators yet. Do not use eval."
+    },
+    {
+        "index": 12,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 13,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Missing the last number."
+    }
+]

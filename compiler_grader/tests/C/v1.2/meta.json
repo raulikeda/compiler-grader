@@ -1,0 +1,87 @@
+[
+    {
+        "index": 1,
+        "Result": "It should not raise any errors, but it did",
+        "Description": "Test with all operators with no errors and with spaces"
+    },
+    {
+        "index": 2,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Invalid empty string."
+    },
+    {
+        "index": 3,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid two consecultive operators."
+    },
+    {
+        "index": 4,
+        "Result": "ERROR:Parser:Unexpected PLUS token",
+        "Description": "Cannot start with an operator."
+    },
+    {
+        "index": 5,
+        "Result": "ERROR:Parser:Unexpected INT token",
+        "Description": "Invalid two consecultive numbers. Do not replace spaces, just ignore them."
+    },
+    {
+        "index": 6,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Missing the last number."
+    },
+    {
+        "index": 7,
+        "Result": "ERROR:Parser:Unexpected DIV token",
+        "Description": "Cannot start an expression with MULT or DIV."
+    },
+    {
+        "index": 8,
+        "Result": "ERROR:Tokenizer:Unexpected symbol",
+        "Description": "Invalid symbol."
+    },
+    {
+        "index": 9,
+        "Result": "ERROR:Parser:Unexpected DIV token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 10,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 11,
+        "Result": "ERROR:Parser:Unexpected PLUS token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 12,
+        "Result": "ERROR:Parser:Unexpected MULT token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 13,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Invalid operation."
+    },
+    {
+        "index": 14,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Missing the closing parenthesis."
+    },
+    {
+        "index": 15,
+        "Result": "ERROR:Parser:Unexpected CLOSE_PAR token",
+        "Description": "Invalid parenthesis balance."
+    },
+    {
+        "index": 16,
+        "Result": "ERROR:Parser:Unexpected EOF token",
+        "Description": "Missing the closing parenthesis."
+    },
+    {
+        "index": 17,
+        "Result": "ERROR:Parser:Unexpected CLOSE_PAR token",
+        "Description": "Invalid parenthesis balance."
+    }
+]
