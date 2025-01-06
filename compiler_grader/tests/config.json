@@ -1,6 +1,11 @@
 {
     "C": {
         "extension": "c",
+        "deny": {
+            "v2.2": [
+                22
+            ]
+        },
         "replacements": {
             "$ic": "//",
             "$n": ";",
